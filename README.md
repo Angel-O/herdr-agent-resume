@@ -6,6 +6,8 @@ A Herdr plugin that inserts or copies the latest agent resume command printed in
 the focused pane after an agent exits. OpenCode, Codex, Claude Code, and Factory
 Droid are currently supported.
 
+![Insert an OpenCode resume command](assets/demo.gif)
+
 ## Motivation
 
 Agent CLIs print exact commands for returning to completed terminal sessions,
@@ -24,9 +26,8 @@ claude --resume b3dbde41-...
 droid --resume droid-session-id
 ```
 
-It does not depend on the cursor position, a fixed terminal layout, or Herdr's
-agent metadata. If commands from multiple agents are present, the command that
-appears latest in the pane output is selected.
+If commands from multiple agents are present, the command that appears latest
+in the pane output is selected.
 
 ## Requirements
 
@@ -48,6 +49,10 @@ x86_64-apple-darwin
 aarch64-unknown-linux-musl
 x86_64-unknown-linux-musl
 ```
+
+The plugin has been tested end to end in a live Herdr session only on macOS.
+CI builds and tests the Linux targets, but their runtime behavior has not been
+manually verified.
 
 ## Install
 
@@ -106,10 +111,12 @@ Release maintainers should follow [RELEASING.md](RELEASING.md).
 
 ## Remote Sessions
 
-Direct insertion works in remote sessions because Herdr sends the text to the
-server-side pane. Herdr does not currently expose clipboard writes to plugins,
-so the copy action writes to the clipboard on the machine running the Herdr
-server rather than the attaching computer.
+Direct insertion should work in remote sessions because Herdr sends the text to
+the server-side pane. Clipboard copies should happen on the Herdr server. When
+you attach to a remote server, the copy action is therefore expected to update
+the remote machine's clipboard, not the clipboard on the computer you are
+attaching from. Herdr's plugin API does not currently provide access to the
+attaching computer's clipboard. This behavior has not been tested end to end.
 
 ## Contributing
 
