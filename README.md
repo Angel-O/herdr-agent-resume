@@ -2,9 +2,9 @@
 
 # Herdr Agent Resume
 
-A Herdr plugin that inserts or copies the latest agent resume command printed in
-the focused pane after an agent exits. OpenCode, Codex, Claude Code, and Factory
-Droid are currently supported.
+A [Herdr](https://herdr.dev) plugin that inserts or copies the latest agent
+resume command printed in the focused pane after an agent exits. OpenCode,
+Codex, Claude Code, and Factory Droid are currently supported.
 
 ![Insert an OpenCode resume command](assets/demo.gif)
 
