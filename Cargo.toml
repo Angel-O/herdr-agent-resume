@@ -1,0 +1,10 @@
+[package]
+name = "herdr-agent-resume"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.89"
+description = "A Herdr plugin that copies the latest agent resume command"
+license = "MIT"
+repository = "https://github.com/Angel-O/herdr-agent-resume"
+
+[dependencies]

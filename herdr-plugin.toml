@@ -1,0 +1,21 @@
+id = "angel-o.agent-resume"
+name = "Agent Resume"
+version = "0.1.0"
+min_herdr_version = "0.7.5"
+description = "Insert or copy resume commands for OpenCode, Codex, Claude Code, and Factory Droid."
+platforms = ["macos", "linux"]
+
+[[build]]
+command = ["cargo", "build", "--release", "--locked"]
+
+[[actions]]
+id = "insert-resume"
+title = "Insert agent resume command"
+contexts = ["pane"]
+command = ["target/release/herdr-agent-resume"]
+
+[[actions]]
+id = "copy-resume"
+title = "Copy agent resume command"
+contexts = ["pane"]
+command = ["target/release/herdr-agent-resume"]
