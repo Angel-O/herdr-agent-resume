@@ -111,12 +111,12 @@ Release maintainers should follow [RELEASING.md](RELEASING.md).
 
 ## Remote Sessions
 
-Direct insertion works in remote sessions because Herdr sends the text to the
-server-side pane. Clipboard copies also happen on the Herdr server. When you
-attach to a remote server, the copy action updates the remote machine's
-clipboard, not the clipboard on the computer you are attaching from. Herdr's
-plugin API does not currently provide access to the attaching computer's
-clipboard.
+Direct insertion should work in remote sessions because Herdr sends the text to
+the server-side pane. Clipboard copies should happen on the Herdr server. When
+you attach to a remote server, the copy action is therefore expected to update
+the remote machine's clipboard, not the clipboard on the computer you are
+attaching from. Herdr's plugin API does not currently provide access to the
+attaching computer's clipboard. This behavior has not been tested end to end.
 
 ## Contributing
 
