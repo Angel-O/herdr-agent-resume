@@ -6,7 +6,7 @@ description = "Insert or copy resume commands for OpenCode, Codex, Claude Code, 
 platforms = ["macos", "linux"]
 
 [[build]]
-command = ["cargo", "build", "--release", "--locked"]
+command = ["sh", "scripts/install.sh"]
 
 [[actions]]
 id = "insert-resume"
