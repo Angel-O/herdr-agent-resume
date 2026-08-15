@@ -7,6 +7,7 @@ mod resume;
 
 use invocation::{Action, Invocation};
 
+// Progressively widen discovery reads, ending with all retained rows.
 const OUTPUT_LINE_WINDOWS: [u32; 4] = [200, 1_000, 10_000, u32::MAX];
 
 fn main() {

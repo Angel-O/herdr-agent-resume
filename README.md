@@ -40,11 +40,10 @@ in the pane output is selected.
 ## Scrollback Recovery
 
 The plugin reads progressively larger row windows and stops when it finds a
-supported resume command. Its final read requests all rows Herdr still retains;
-it does not enlarge Herdr's scrollback buffer.
+supported resume command. Its final read requests all rows Herdr still retains.
 
-The maximum recoverable history depends on `advanced.scrollback_limit_bytes`,
-which defaults to `10000000` bytes. Increase it in
+The maximum recoverable history is controlled by Herdr's
+`advanced.scrollback_limit_bytes` setting, not by this plugin. Configure it in
 `~/.config/herdr/config.toml` if needed:
 
 ```toml
