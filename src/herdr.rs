@@ -2,9 +2,7 @@
 
 use std::process::Command;
 
-const RECENT_OUTPUT_LINES: &str = "200";
-
-pub(crate) fn read_recent_output(herdr: &str, pane_id: &str) -> Result<String, String> {
+pub(crate) fn read_recent_output(herdr: &str, pane_id: &str, lines: u32) -> Result<String, String> {
     let output = Command::new(herdr)
         .args([
             "pane",
@@ -13,10 +11,9 @@ pub(crate) fn read_recent_output(herdr: &str, pane_id: &str) -> Result<String, S
             "--source",
             "recent-unwrapped",
             "--lines",
-            RECENT_OUTPUT_LINES,
-            "--format",
-            "text",
         ])
+        .arg(lines.to_string())
+        .args(["--format", "text"])
         .output()
         .map_err(|error| format!("could not read pane {pane_id}: {error}"))?;
 

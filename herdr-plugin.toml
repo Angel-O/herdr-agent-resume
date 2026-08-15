@@ -1,6 +1,6 @@
 id = "angel-o.agent-resume"
 name = "Agent Resume"
-version = "0.1.0"
+version = "0.1.1"
 min_herdr_version = "0.7.5"
 description = "Insert or copy resume commands for OpenCode, Codex, Claude Code, and Factory Droid."
 platforms = ["macos", "linux"]

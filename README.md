@@ -8,6 +8,15 @@ Codex, Claude Code, and Factory Droid are currently supported.
 
 ![Insert an OpenCode resume command](assets/demo.gif)
 
+> **Use one agent-independent shortcut across all supported CLIs.** This is
+> especially useful when switching among multiple agents: there is no need to
+> remember each CLI's resume syntax.
+>
+> **The resume command does not need to be visible on screen.** The plugin
+> progressively searches backward through the focused pane's retained Herdr
+> scrollback, so later output can push the command off-screen and it can still
+> be recovered while Herdr retains it.
+
 ## Motivation
 
 Agent CLIs print exact commands for returning to completed terminal sessions,
@@ -16,8 +25,7 @@ plugin finds the newest supported resume command in the focused pane and either
 inserts it at the shell prompt for review or copies it on explicit request. It
 never executes the command automatically.
 
-The plugin reads recent unwrapped pane output and selects the newest command that
-matches a supported agent's exit message:
+The newest command that matches a supported agent's exit message is selected:
 
 ```text
 opencode -s ses_...
@@ -28,6 +36,26 @@ droid --resume droid-session-id
 
 If commands from multiple agents are present, the command that appears latest
 in the pane output is selected.
+
+## Scrollback Recovery
+
+The plugin reads progressively larger row windows and stops when it finds a
+supported resume command. Its final read requests all rows Herdr still retains.
+
+The maximum recoverable history is controlled by Herdr's
+`advanced.scrollback_limit_bytes` setting, not by this plugin. Configure it in
+`~/.config/herdr/config.toml` if needed:
+
+```toml
+[advanced]
+scrollback_limit_bytes = 20000000
+```
+
+`Ctrl+L` only clears or redraws the visible screen and preserves retained
+history, so recovery still works. The shell's `clear` command and terminal
+clear-scrollback shortcuts such as `Cmd+K` erase retained scrollback in the
+common setup, so recovery cannot work afterward. Behavior can vary across
+terminals; the decisive condition is whether Herdr still retains the output.
 
 ## Requirements
 
