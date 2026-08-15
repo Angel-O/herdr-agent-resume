@@ -8,10 +8,14 @@ Codex, Claude Code, and Factory Droid are currently supported.
 
 ![Insert an OpenCode resume command](assets/demo.gif)
 
+> **Use one agent-independent shortcut across all supported CLIs.** This is
+> especially useful when switching among multiple agents: there is no need to
+> remember each CLI's resume syntax.
+>
 > **The resume command does not need to be visible on screen.** The plugin
-> searches the focused pane's retained Herdr scrollback, so later output can
-> push the command off-screen and it can still be recovered. Once Herdr no
-> longer retains that output, the plugin cannot recover it.
+> progressively searches backward through the focused pane's retained Herdr
+> scrollback, so later output can push the command off-screen and it can still
+> be recovered while Herdr retains it.
 
 ## Motivation
 
@@ -32,6 +36,27 @@ droid --resume droid-session-id
 
 If commands from multiple agents are present, the command that appears latest
 in the pane output is selected.
+
+## Scrollback Recovery
+
+The plugin reads progressively larger row windows and stops when it finds a
+supported resume command. Its final `u32::MAX` request searches all rows Herdr
+still retains; it does not enlarge Herdr's scrollback buffer.
+
+The maximum recoverable history depends on `advanced.scrollback_limit_bytes`,
+which defaults to `10000000` bytes. Increase it in
+`~/.config/herdr/config.toml` if needed:
+
+```toml
+[advanced]
+scrollback_limit_bytes = 20000000
+```
+
+`Ctrl+L` redraws or clears the visible screen while preserving retained
+scrollback, so recovery still works. The shell's `clear` command commonly does
+the same, but its exact behavior depends on terminfo and the terminal. A
+terminal clear-scrollback action, such as `Cmd+K` where that shortcut is bound
+to clear scrollback, removes the retained command and prevents recovery.
 
 ## Requirements
 
