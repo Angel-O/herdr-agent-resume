@@ -8,6 +8,11 @@ Codex, Claude Code, and Factory Droid are currently supported.
 
 ![Insert an OpenCode resume command](assets/demo.gif)
 
+> **The resume command does not need to be visible on screen.** The plugin
+> searches the focused pane's retained Herdr scrollback, so later output can
+> push the command off-screen and it can still be recovered. Once Herdr no
+> longer retains that output, the plugin cannot recover it.
+
 ## Motivation
 
 Agent CLIs print exact commands for returning to completed terminal sessions,
@@ -16,8 +21,7 @@ plugin finds the newest supported resume command in the focused pane and either
 inserts it at the shell prompt for review or copies it on explicit request. It
 never executes the command automatically.
 
-The plugin searches the focused pane's retained Herdr scrollback and selects the
-newest command that matches a supported agent's exit message:
+The newest command that matches a supported agent's exit message is selected:
 
 ```text
 opencode -s ses_...
@@ -84,8 +88,7 @@ herdr server reload-config
 
 After exiting a supported agent, press the Herdr prefix followed by `A` to insert
 the full command at the shell prompt without executing it. Use `prefix+shift+a`
-to copy it to the clipboard instead. The resume command does not need to remain
-visible on screen, but its output must still be retained in Herdr's scrollback.
+to copy it to the clipboard instead.
 
 ## Local Setup
 
