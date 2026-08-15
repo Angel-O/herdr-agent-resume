@@ -40,8 +40,8 @@ in the pane output is selected.
 ## Scrollback Recovery
 
 The plugin reads progressively larger row windows and stops when it finds a
-supported resume command. Its final `u32::MAX` request searches all rows Herdr
-still retains; it does not enlarge Herdr's scrollback buffer.
+supported resume command. Its final read requests all rows Herdr still retains;
+it does not enlarge Herdr's scrollback buffer.
 
 The maximum recoverable history depends on `advanced.scrollback_limit_bytes`,
 which defaults to `10000000` bytes. Increase it in
@@ -52,11 +52,11 @@ which defaults to `10000000` bytes. Increase it in
 scrollback_limit_bytes = 20000000
 ```
 
-`Ctrl+L` redraws or clears the visible screen while preserving retained
-scrollback, so recovery still works. The shell's `clear` command commonly does
-the same, but its exact behavior depends on terminfo and the terminal. A
-terminal clear-scrollback action, such as `Cmd+K` where that shortcut is bound
-to clear scrollback, removes the retained command and prevents recovery.
+`Ctrl+L` only clears or redraws the visible screen and preserves retained
+history, so recovery still works. The shell's `clear` command and terminal
+clear-scrollback shortcuts such as `Cmd+K` erase retained scrollback in the
+common setup, so recovery cannot work afterward. Behavior can vary across
+terminals; the decisive condition is whether Herdr still retains the output.
 
 ## Requirements
 
