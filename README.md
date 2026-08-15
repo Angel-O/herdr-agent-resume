@@ -16,8 +16,8 @@ plugin finds the newest supported resume command in the focused pane and either
 inserts it at the shell prompt for review or copies it on explicit request. It
 never executes the command automatically.
 
-The plugin reads recent unwrapped pane output and selects the newest command that
-matches a supported agent's exit message:
+The plugin searches the focused pane's retained Herdr scrollback and selects the
+newest command that matches a supported agent's exit message:
 
 ```text
 opencode -s ses_...
@@ -84,7 +84,8 @@ herdr server reload-config
 
 After exiting a supported agent, press the Herdr prefix followed by `A` to insert
 the full command at the shell prompt without executing it. Use `prefix+shift+a`
-to copy it to the clipboard instead.
+to copy it to the clipboard instead. The resume command does not need to remain
+visible on screen, but its output must still be retained in Herdr's scrollback.
 
 ## Local Setup
 
