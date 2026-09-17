@@ -20,25 +20,31 @@ distributions.
    ```
 
 3. Open and review the release pull request. Wait for every test, quality, and
-   release-target check to pass. Do not merge a manifest that references assets
-   that do not exist yet.
+   release-target check to pass, then merge it with a merge commit so the
+   reviewed release commit remains in `main` history. Do not squash the release
+   pull request.
 
 ## Publish Assets
 
-From the reviewed release commit, create and push an annotated version tag:
+Update local `main`, then create and push an annotated version tag from the
+release pull request's merge commit:
 
 ```bash
+set -euo pipefail
+git switch main
+git pull --ff-only origin main
+merge_commit="$(gh pr view <release-pr-number> --json mergeCommit --jq '.mergeCommit.oid')"
+test "$(git rev-parse HEAD)" = "$merge_commit"
 version="$(scripts/check-version.sh)"
-git tag -a "v$version" -m "v$version"
+git tag -a "v$version" "$merge_commit" -m "v$version"
 git push origin "v$version"
 ```
 
 The release workflow validates the tag, creates or reuses only a draft release,
 builds all four targets, and publishes only after every build succeeds. If any
-target fails, the release remains a draft and the pull request must not be
-merged.
+target fails, the release remains a draft.
 
-## Verify And Merge
+## Verify
 
 1. Confirm the release contains four binaries plus `SHA256SUMS`.
 2. Install the reviewed tag into a clean Herdr plugin registry:
@@ -49,5 +55,3 @@ merged.
 
 3. Configure both actions and verify detection, insertion, and copying for each
    available agent. Confirm failures leave an existing installed binary intact.
-4. Merge the release pull request only after the clean tag installation and
-   runtime QA succeed.
