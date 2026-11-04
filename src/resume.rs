@@ -1,7 +1,8 @@
 //! Pure detection policy for supported agent resume commands.
 
-const COMMAND_PREFIXES: [&str; 4] = [
+const COMMAND_PREFIXES: [&str; 5] = [
     "opencode -s ses_",
+    "opencode --session ses_",
     "codex resume ",
     "claude --resume ",
     "droid --resume ",
@@ -39,6 +40,16 @@ mod tests {
         assert_eq!(
             latest_command(output),
             Some("opencode -s ses_0221956a4ffeHQolAvyWwmrEgN")
+        );
+    }
+
+    #[test]
+    fn extracts_opencode_long_session_command_from_exit_screen() {
+        let output = "Continue opencode --session ses_0221956a4ffeHQolAvyWwmrEgN\n$ ";
+
+        assert_eq!(
+            latest_command(output),
+            Some("opencode --session ses_0221956a4ffeHQolAvyWwmrEgN")
         );
     }
 
@@ -109,6 +120,18 @@ mod tests {
         let output = "opencode -s ses_old\ntext\nopencode -s ses_new";
 
         assert_eq!(latest_command(output), Some("opencode -s ses_new"));
+    }
+
+    #[test]
+    fn chooses_the_latest_opencode_session_across_flag_forms() {
+        let output = "opencode --session ses_first\ntext\nopencode -s ses_second";
+        assert_eq!(latest_command(output), Some("opencode -s ses_second"));
+
+        let output = "opencode -s ses_first\ntext\nopencode --session ses_second";
+        assert_eq!(
+            latest_command(output),
+            Some("opencode --session ses_second")
+        );
     }
 
     #[test]
